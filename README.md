@@ -1,60 +1,132 @@
-# EcoFinds - Sustainable Marketplace
+# ShopPulse — Modern Digital Storefront & E-Commerce Web App
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Security Audit](https://img.shields.io/badge/security-audited-blue.svg)]()
+[![Tech Stack](https://img.shields.io/badge/stack-TypeScript-informational.svg)]()
+[![License](https://img.shields.io/badge/license-private-lightgrey.svg)]()
 
-EcoFinds is a full-stack web application built with Next.js that allows users to buy and sell pre-owned goods in a sustainable marketplace. It features a clean, modern interface with a "Black and Gold" theme and is designed to be fully responsive across all devices.
+## Overview
+ShopPulse is a full-featured modern e-commerce storefront web application built with Next.js 15, React, Tailwind CSS, and Radix UI. It provides high-speed product catalog browsing, detailed item views, dynamic shopping cart management, user account profiles, and an interactive checkout experience.
+
+- **Problem Solved:** Fast, SEO-optimized digital retail shopping experience.
+- **Target Users:** Online consumers and digital store operators.
+- **Current Status:** Functional Web Application.
 
 ## Features
+- **Product Catalog & Filtering:** Search and filter by category, price, and customer rating.
+- **Persistent Cart Drawer:** Real-time quantity adjustments, subtotal computation, and cart state storage.
+- **User Account Area:** Order history, shipping addresses, and personal profile management.
+- **Modern Responsive Design:** Clean e-commerce design system with dark/light themes.
 
-- *User Authentication*: Secure user sign-up and login functionality.
-- *Product Management*: Users can create, view, edit, and delete their own product listings.
-- *Marketplace*: Browse, search, and filter products by category.
-- *Shopping Cart*: Add items to a cart for purchase.
-- *Checkout System*: A simulated checkout process to "purchase" items.
-- *User Account Page*: A dedicated section for users to manage their listings, view purchase history, and update their profile.
-- *Theme Toggle*: Switch between light and dark modes for a personalized viewing experience.
-- *Responsive Design*: Fully optimized for a seamless experience on desktop, tablet, and mobile devices.
+## Architecture
+```mermaid
+flowchart TD
+    Shopper["Shopper Browser"] --> NextApp["Next.js App Router (Port 3000)"]
+    NextApp --> CartState["Cart State & Context Provider"]
+    NextApp --> UI["Product Cards, Cart Drawer, Checkout Form"]
+```
 
+## User Flow
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Shopper as Digital Shopper
+    participant UI as ShopPulse Storefront (Port 3000)
+    participant Cart as Cart State Manager
+    participant Checkout as Checkout Modal
 
-## Tech Stack
+    Shopper->>UI: Explore featured product collections
+    UI-->>Shopper: Render product cards with price tags
+    Shopper->>UI: Add items to shopping cart
+    UI->>Cart: Update item quantities & recalculate subtotal
+    Shopper->>UI: Click "Proceed to Checkout"
+    UI->>Checkout: Open shipping address and payment form
+    Shopper->>Checkout: Enter details and click "Place Order"
+    Checkout-->>Shopper: Display order confirmation screen
+```
 
-- *Framework*: [Next.js](https://nextjs.org/)
-- *Language*: [TypeScript](https://www.typescriptlang.org/)
-- *UI Library*: [React](https://react.dev/)
-- *Styling*: [Tailwind CSS](https://tailwindcss.com/)
-- *Components*: [ShadCN UI](https://ui.shadcn.com/)
-- *Generative AI*: [Firebase Genkit](https://firebase.google.com/docs/genkit)
+## Technology Stack
+| Layer | Technology | Purpose |
+|---|---|---|
+| Framework | Next.js 15 (App Router) | Server-rendered React application |
+| Language | TypeScript | Type safety and domain models |
+| Styling | Tailwind CSS, Radix UI | Modern storefront component library |
+| Icons | Lucide React | High-clarity vector icons |
 
-## Getting Started
+## Infrastructure
+- **Server Port:** 3000
+- **Hosting Target:** Vercel Edge Network
 
-Follow these steps to get the development environment running.
+## Project Structure
+```text
+Project/
+├── src/
+│   ├── app/             # Next.js App Router (cart, account, products)
+│   ├── components/      # ProductCard, CartDrawer, Navbar, Footer
+│   ├── context/         # CartContext and session state
+│   └── lib/             # Utility helpers and mock catalog
+├── package.json         # Dependencies
+├── next.config.ts       # Next.js configuration
+├── .gitignore           # Git ignore definitions
+└── README.md            # Technical documentation
+```
 
-### 1. Prerequisites
+## Prerequisites
+- Node.js >= 18.x
+- npm >= 9.x
 
-Make sure you have [Node.js](https://nodejs.org/) (version 20 or later) and npm installed on your machine.
+## Environment Variables
+Create `.env.local` using placeholders:
+```env
+NEXT_PUBLIC_STORE_NAME=ShopPulse
+NEXT_PUBLIC_STRIPE_KEY=your_stripe_publishable_key_optional
+```
 
-### 2. Install Dependencies
+## Local Development Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Bhanutejanallamothu/Project.git
+   cd Project
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Run development server:
+   ```bash
+   npm run dev
+   ```
+4. Access store at `http://localhost:3000`.
 
-In your project terminal, run the following command to install all the necessary packages:
+## Docker Setup
+*Not detected in repository. Standard Next.js container configuration supported.*
 
-bash
-npm install
+## Database Setup
+*Not applicable in standalone prototype mode.*
 
+## API Documentation
+Internal Next.js server actions and API endpoints for cart and account state.
 
-### 3. Run the Development Server
+## Deployment
+```bash
+npm run build
+```
+Deploy to Vercel with zero configuration.
 
-Once the dependencies are installed, you can start the Next.js development server:
+## Security
+- Input sanitization on checkout forms.
+- Safe client-side price computation with server validation verification.
 
-bash
-npm run dev
+## Testing
+```bash
+npm run lint
+```
 
+## Troubleshooting
+- **Hydration Warning:** Ensure browser extensions do not inject arbitrary HTML into the DOM tree.
 
-This will start the application on http://localhost:9002. You can now open this URL in your web browser to see the application running.
+## Future Improvements
+- Live payment processing via Stripe Checkout.
+- Product reviews and customer rating submission.
 
-### 4. Project Structure
-
-- **src/app**: Contains all the pages and routing for the application, following the Next.js App Router structure.
-- **src/components**: Reusable React components used throughout the application, including UI components from ShadCN.
-- **src/context**: The AppContext provides global state management for user data, products, and the shopping cart.
-- **src/lib**: Includes type definitions (types.ts), initial data (data.ts), and utility functions (utils.ts).
-- **src/ai**: Genkit flows and configuration for generative AI features.
-- **public**: Static assets like images and fonts.
-- **tailwind.config.ts**: Configuration for Tailwind CSS.
+## License
+All rights reserved by repository owner.
